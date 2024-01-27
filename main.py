@@ -167,6 +167,7 @@ def alterar():
         for elementos in contatos_atualizados:
             if elementos['nome'] == nome_alterar:
                 existe = True
+                break
             else:
                 existe = False
         if existe == True:
@@ -213,6 +214,7 @@ def alterar():
         else:
             print("erro")
             print(nome_alterar)
+            print(existe)
                 
     btn = customtkinter.CTkButton(tela_alterar,text="alterar",command=buscar_alterar)
     btn.pack(padx=10,pady=10)
