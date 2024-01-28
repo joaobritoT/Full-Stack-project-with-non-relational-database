@@ -2,10 +2,15 @@ from classe import Pessoa
 import customtkinter
 import json
 from time import sleep
-
+import subprocess
+import os
+import webbrowser
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
+
+
+
 
 #tela de cadastro
 def cadastro():
@@ -310,9 +315,19 @@ def alterar():
     tela_alterar.mainloop()
 
 
+def Abrir_api():
+    try:
+        subprocess.Popen(['python','api.py'])
+    except Exception as e:
+        print("erro {}".format(e))
+    new =2
+    url = 'http://localhost:5000/dados'
+    sleep(1)
+    webbrowser.open(url,new=new)
+
 #tela principal
 principal = customtkinter.CTk()
-principal.geometry("400x400")
+principal.geometry("400x450")
 principal.iconbitmap("icone_agenda.ico")
 principal.title("Banco de contatos João Victor")
 lblmain = customtkinter.CTkLabel(principal,text="MEU BANCO DE CONTATOS",font=('Arial',26))
@@ -329,9 +344,10 @@ btn4 = customtkinter.CTkButton(principal,text="Apagar contato",command=apagar,fo
 btn4.pack(padx=10,pady=10)
 btn5 = customtkinter.CTkButton(principal,text="Alterar contato",command=alterar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=300,corner_radius=20)
 btn5.pack(padx=10,pady=10)
+btn7 = customtkinter.CTkButton(principal,text="Abrir API",command=Abrir_api,font=("Arial",15,"bold"),fg_color="#0BDB19",hover_color="#16752F",width=300,corner_radius=20)
+btn7.pack(padx=10,pady=10)
 btn6 = customtkinter.CTkButton(principal,text="Sair",command=principal.destroy,font=("Arial",15,"bold"),fg_color="#FA5C4F",hover_color="#FA0201",width=300,corner_radius=20)
 btn6.pack(padx=10,pady=10)
-
 
 
 

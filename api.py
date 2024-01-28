@@ -23,4 +23,6 @@ def obter_por_nome(nome):
            if dado.get('nome') == nome:
                  return jsonify(dado)
 
-app.run(port=5000,host='localhost',debug=True)
+
+if __name__ == '__main__':
+    app.run(port=5000,host='localhost',debug=True)
