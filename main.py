@@ -10,6 +10,7 @@ customtkinter.set_default_color_theme("dark-blue")
 def cadastro():
     cadastro = customtkinter.CTk()
     cadastro.geometry("400x280")
+    cadastro.iconbitmap("icone_agenda.ico")
     cadastro.title("Banco de contatos João Victor")
     lblcadastro = customtkinter.CTkLabel(cadastro,text="Digite os dados do contato",font=("Arial",20))
     lblcadastro.pack(padx=10,pady=10)
@@ -53,8 +54,21 @@ def cadastro():
 
             else:
                 adicionar_contato(p1.Nome,p1.Email,p1.Telefone)
-                lbljacadastrado.configure(text='Usuario cadastrado com sucesso')
-                lbljacadastrado.configure(text_color="green")
+                #lbljacadastrado.configure(text='Usuario cadastrado com sucesso')
+                #lbljacadastrado.configure(text_color="green")
+                #lbljacadastrado = customtkinter.CTkLabel(cadastro,text='cadastrado',font=("Arial",15,"bold"),text_color="red")
+                #lbljacadastrado.pack(padx=10,pady=10)
+                cadastro.withdraw()
+                confirmacao = customtkinter.CTk()
+                confirmacao.geometry("300x50")
+                confirmacao.title("Banco de contatos João Victor")
+                confirmacao.iconbitmap("icone_agenda.ico")
+                lbl_confirmacao = customtkinter.CTkLabel(confirmacao,text="Usuario cadastrado com sucesso",font=("Arial",15,"bold"),text_color="green")
+                lbl_confirmacao.pack(padx=10,pady=10)
+                confirmacao.mainloop()
+                
+                
+                
 
     
             
@@ -75,21 +89,27 @@ def mostrar_contatos():
     
     contatos_atualizados = ler_contatos()
     exibicao = customtkinter.CTk()
-    texto = customtkinter.CTkLabel(exibicao,text="Lista dos contatos cadastrados no banco de dados: ")
+    exibicao.geometry("400x400")
+    exibicao.title("Banco de contatos João Victor")
+    exibicao.iconbitmap("icone_agenda.ico")
+    texto = customtkinter.CTkLabel(exibicao,text="Lista dos contatos cadastrados no banco de dados: ",font=("Arial",20,"bold"),text_color="white",wraplength=350)
     texto.pack(padx=10,pady=10)
+    frame = customtkinter.CTkScrollableFrame(exibicao,width=350,height=300,fg_color="white")
+    frame.pack()
     for elementos in contatos_atualizados:
-        label = customtkinter.CTkLabel(exibicao,text="Nome: {}\n Email: {}\n Telefone: {}".format(elementos['nome'],elementos['email'],elementos['telefone']),wraplength=500)
-        label_divisao = customtkinter.CTkLabel(exibicao,text="=================")
-        label_divisao.pack()
+        label = customtkinter.CTkLabel(frame,text="Nome: {}\nEmail: {}\nTelefone: {}".format(elementos['nome'],elementos['email'],elementos['telefone']),wraplength=500,font=("Arial",15,"bold"),text_color="black",justify="left")
+        label_divisao = customtkinter.CTkLabel(frame,text="================================================",text_color="black",font=("Arial",15,"bold"))
+        label_divisao.pack(padx=10,pady=10)
         label.pack(padx=10,pady=10)
     
-    exibicao.geometry("500x500")
     exibicao.mainloop()
 
 #buscar contato
 def buscar():
     tela_buscar = customtkinter.CTk()
     tela_buscar.geometry("400x400")
+    tela_buscar.iconbitmap("icone_agenda.ico")
+    tela_buscar.title("Banco de contatos João Victor")
     lbl_buscar = customtkinter.CTkLabel(tela_buscar,text="Digite o nome do usuario que deseja buscar",font=("Arial",22),wraplength=300)
     lbl_buscar.pack(padx=10,pady=10)
     entradanome = customtkinter.CTkEntry(tela_buscar,placeholder_text="Nome:",width=250,font=("Arial",15),placeholder_text_color="white")
@@ -127,7 +147,7 @@ def buscar():
                 
                 
         
-    btn = customtkinter.CTkButton(tela_buscar,text="Buscar",command=buscar_especifico,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
+    btn = customtkinter.CTkButton(tela_buscar,text="Buscar",command=lambda:[buscar_especifico(),entradanome.delete(0,'end'),entradaemail.delete(0,'end'),entradatelefone.delete(0,'end')],font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
     btn.pack(padx=10,pady=10)
     lbl_retorno = customtkinter.CTkLabel(tela_buscar,text='',font=("Arial",15,"bold"))
     lbl_retorno.pack(padx=10,pady=10)
@@ -138,6 +158,8 @@ def buscar():
 def apagar():
     tela_apagar = customtkinter.CTk()
     tela_apagar.geometry("300x230")
+    tela_apagar.title("Banco de contatos João Victor")
+    tela_apagar.iconbitmap("icone_agenda.ico")
     lbl_texto_apagar = customtkinter.CTkLabel(tela_apagar,text="Digite o nome do usuario que deseja apagar",wraplength=250,font=("Arial",20))
     lbl_texto_apagar.pack(padx=10,pady=10)
     entradanome = customtkinter.CTkEntry(tela_apagar,placeholder_text="Nome:",width=200,font=("Arial",15),placeholder_text_color="white")
@@ -166,7 +188,7 @@ def apagar():
                 lbl_apagado.configure(text="USUARIO NÃO ENCONTRADO")
                 lbl_apagado.configure(text_color="red")
     
-    btn = customtkinter.CTkButton(tela_apagar,text="Apagar",command=buscar_deletar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
+    btn = customtkinter.CTkButton(tela_apagar,text="Apagar",command=lambda:[buscar_deletar(),entradanome.delete(0,'end')],font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
     btn.pack(padx=10,pady=10)
     lbl_apagado = customtkinter.CTkLabel(tela_apagar,text='',font=("Arial",15,"bold"))
     lbl_apagado.pack(padx=10,pady=10)
@@ -174,10 +196,12 @@ def apagar():
 
 def alterar():
     tela_alterar = customtkinter.CTk()
-    tela_alterar.geometry("500x500")
-    lbl_alterar = customtkinter.CTkLabel(tela_alterar,text="Digite o nome do contato que deseja altrar:")
-    lbl_alterar.pack(padx=10,pady=10)
-    entradanome_alterar = customtkinter.CTkEntry(tela_alterar,placeholder_text="Nome")
+    tela_alterar.geometry("300x230")
+    tela_alterar.title("Banco de contatos João Victor")
+    tela_alterar.iconbitmap("icone_agenda.ico")
+    lbl_texto_alterar = customtkinter.CTkLabel(tela_alterar,text="Digite o nome do usuario que deseja alterar",wraplength=250,font=("Arial",20))
+    lbl_texto_alterar.pack(padx=10,pady=10)
+    entradanome_alterar = customtkinter.CTkEntry(tela_alterar,placeholder_text="Nome",width=200,font=("Arial",15),placeholder_text_color="white")
     entradanome_alterar.pack(padx=10,pady=10)
     def buscar_alterar():
         nome_alterar = entradanome_alterar.get()
@@ -197,13 +221,18 @@ def alterar():
                 existe = False
         if existe == True:
                 cadastro_alterar = customtkinter.CTk()
-                cadastro_alterar.geometry("400x400")
-                entradanome_aletrar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="Nome")
+                cadastro_alterar.geometry("400x300")
+                cadastro_alterar.title("Banco de contatos João Victor")
+                cadastro_alterar.iconbitmap("icone_agenda.ico")
+                lbl_alterar = customtkinter.CTkLabel(cadastro_alterar,text="Digite os dados atualizados do contato",font=("Arial",20),wraplength=280)
+                lbl_alterar.pack(padx=10,pady=10)
+                entradanome_aletrar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="Nome",width=250,font=("Arial",15),placeholder_text_color="white")
                 entradanome_aletrar_commit.pack(padx=10,pady=10)
-                entradaemail_alterar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="E-mail")
+                entradaemail_alterar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="E-mail",width=250,font=("Arial",15),placeholder_text_color="white")
                 entradaemail_alterar_commit.pack(padx=10,pady=10)
-                entradatelefone_alterar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="Telefone")
+                entradatelefone_alterar_commit = customtkinter.CTkEntry(cadastro_alterar,placeholder_text="Telefone",width=250,font=("Arial",15),placeholder_text_color="white")
                 entradatelefone_alterar_commit.pack(padx=10,pady=10) 
+                tela_alterar.withdraw()
 
                 def commit():
                     nome_alterar_commit = entradanome_aletrar_commit.get()
@@ -215,7 +244,8 @@ def alterar():
                         nulo = False
                     if nulo == True:
                         print("erro")
-                        lblerro_nulo.configure(text='digite um valor valido')
+                        lblerro_nulo.configure(text='Digite um valor valido')
+                        lblerro_nulo.configure(text_color='red')
                         
                     else:
                     
@@ -239,23 +269,33 @@ def alterar():
                             json.dump(contatos_atualizados, arquivo, indent=2)
                         print("alterado")
                         print(nulo)
-                        lblerro_nulo.configure(text='alterado com sucesso')
+                        #lblerro_nulo.configure(text='alterado com sucesso')
+                        #lblerro_nulo.configure(text_color='green')
+                        confirmacao_alterar = customtkinter.CTk()
+                        confirmacao_alterar.geometry("300x50")
+                        confirmacao_alterar.title("Banco de contatos João Victor")
+                        confirmacao_alterar.iconbitmap("icone_agenda.ico")
+                        lbl_confirmacao = customtkinter.CTkLabel(confirmacao_alterar,text="Usuario alterado com sucesso",font=("Arial",15,"bold"),text_color="green")
+                        lbl_confirmacao.pack(padx=10,pady=10)
+                        cadastro_alterar.withdraw()
+                        confirmacao_alterar.mainloop()
                         
 
 
                     
-                btncadastro = customtkinter.CTkButton(cadastro_alterar,text="alterar",command=commit)
+                btncadastro = customtkinter.CTkButton(cadastro_alterar,text="alterar",command=commit,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
                 btncadastro.pack(padx=10,pady=10)
-                lblerro_nulo = customtkinter.CTkLabel(cadastro_alterar,text="")
+                lblerro_nulo = customtkinter.CTkLabel(cadastro_alterar,text="",font=("Arial",15,"bold"))
                 lblerro_nulo.pack(padx=10,pady=10)
                 cadastro_alterar.mainloop()
         else:
             print("erro")
             lblerro_nulo_busca.configure(text='Nenhum usuario encontrado')
+            lblerro_nulo_busca.configure(text_color="red")
                 
-    btn = customtkinter.CTkButton(tela_alterar,text="buscar",command=buscar_alterar)
+    btn = customtkinter.CTkButton(tela_alterar,text="buscar",command=buscar_alterar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
     btn.pack(padx=10,pady=10)
-    lblerro_nulo_busca = customtkinter.CTkLabel(tela_alterar,text="")
+    lblerro_nulo_busca = customtkinter.CTkLabel(tela_alterar,text="",font=("Arial",15,"bold"))
     lblerro_nulo_busca.pack(padx=10,pady=10)
     tela_alterar.mainloop()
 
@@ -263,6 +303,7 @@ def alterar():
 #tela principal
 principal = customtkinter.CTk()
 principal.geometry("400x400")
+principal.iconbitmap("icone_agenda.ico")
 principal.title("Banco de contatos João Victor")
 lblmain = customtkinter.CTkLabel(principal,text="MEU BANCO DE CONTATOS",font=('Arial',26))
 lblmain.pack(padx=10,pady=10)
@@ -272,7 +313,7 @@ btn1 = customtkinter.CTkButton(principal,text="Cadastrar contato",command=cadast
 btn1.pack(padx=10,pady=10)
 btn2 = customtkinter.CTkButton(principal,text="Ver lista de contatos",command=mostrar_contatos,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=300,corner_radius=20)
 btn2.pack(padx = 10,pady = 10)
-btn3 = customtkinter.CTkButton(principal,text="Buscar contato",command=buscar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=300,corner_radius=20)
+btn3 = customtkinter.CTkButton(principal,text="Buscar contato especifico",command=buscar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=300,corner_radius=20)
 btn3.pack(padx=10,pady=10)
 btn4 = customtkinter.CTkButton(principal,text="Apagar contato",command=apagar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=300,corner_radius=20)
 btn4.pack(padx=10,pady=10)
