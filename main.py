@@ -3,6 +3,7 @@ import customtkinter
 import json
 from time import sleep
 
+
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
@@ -160,7 +161,7 @@ def apagar():
     tela_apagar.geometry("300x230")
     tela_apagar.title("Banco de contatos João Victor")
     tela_apagar.iconbitmap("icone_agenda.ico")
-    lbl_texto_apagar = customtkinter.CTkLabel(tela_apagar,text="Digite o nome do usuario que deseja apagar",wraplength=250,font=("Arial",20))
+    lbl_texto_apagar = customtkinter.CTkLabel(tela_apagar,text="Digite o nome do contato que deseja apagar",wraplength=250,font=("Arial",20))
     lbl_texto_apagar.pack(padx=10,pady=10)
     entradanome = customtkinter.CTkEntry(tela_apagar,placeholder_text="Nome:",width=200,font=("Arial",15),placeholder_text_color="white")
     entradanome.pack(padx=10,pady=10)
@@ -259,27 +260,36 @@ def alterar():
                                 return contatos
                         contatos_atualizados = ler_contatos()
 
+                        for elementos in contatos_atualizados:
+                            if elementos['nome'] == nome_alterar_commit and elementos['email'] == email_alterar_commit and elementos['telefone'] == telefone_alterar_commit:
+                                adcionado = True
+                                break
+                            else:
+                                adcionado = False
+                        if adcionado == False:
 
-                        for pessoa in contatos_atualizados:
-                            if pessoa.get("nome") == nome_alterar:
-                                pessoa["nome"] = nome_alterar_commit
-                                pessoa['email'] = email_alterar_commit
-                                pessoa['telefone'] = telefone_alterar_commit 
-                        with open('dados.json', 'w') as arquivo:
-                            json.dump(contatos_atualizados, arquivo, indent=2)
-                        print("alterado")
-                        print(nulo)
-                        #lblerro_nulo.configure(text='alterado com sucesso')
-                        #lblerro_nulo.configure(text_color='green')
-                        confirmacao_alterar = customtkinter.CTk()
-                        confirmacao_alterar.geometry("300x50")
-                        confirmacao_alterar.title("Banco de contatos João Victor")
-                        confirmacao_alterar.iconbitmap("icone_agenda.ico")
-                        lbl_confirmacao = customtkinter.CTkLabel(confirmacao_alterar,text="Usuario alterado com sucesso",font=("Arial",15,"bold"),text_color="green")
-                        lbl_confirmacao.pack(padx=10,pady=10)
-                        cadastro_alterar.withdraw()
-                        confirmacao_alterar.mainloop()
-                        
+                            for pessoa in contatos_atualizados:
+                                if pessoa.get("nome") == nome_alterar:
+                                    pessoa["nome"] = nome_alterar_commit
+                                    pessoa['email'] = email_alterar_commit
+                                    pessoa['telefone'] = telefone_alterar_commit 
+                            with open('dados.json', 'w') as arquivo:
+                                json.dump(contatos_atualizados, arquivo, indent=2)
+                            print("alterado")
+                            print(nulo)
+                            #lblerro_nulo.configure(text='alterado com sucesso')
+                            #lblerro_nulo.configure(text_color='green')
+                            confirmacao_alterar = customtkinter.CTk()
+                            confirmacao_alterar.geometry("300x50")
+                            confirmacao_alterar.title("Banco de contatos João Victor")
+                            confirmacao_alterar.iconbitmap("icone_agenda.ico")
+                            lbl_confirmacao = customtkinter.CTkLabel(confirmacao_alterar,text="Usuario alterado com sucesso",font=("Arial",15,"bold"),text_color="green")
+                            lbl_confirmacao.pack(padx=10,pady=10)
+                            cadastro_alterar.withdraw()
+                            confirmacao_alterar.mainloop()
+                        else:
+                            lblerro_nulo.configure(text='Usuario ja cadastrado')
+                            lblerro_nulo.configure(text_color='red')
 
 
                     
@@ -293,7 +303,7 @@ def alterar():
             lblerro_nulo_busca.configure(text='Nenhum usuario encontrado')
             lblerro_nulo_busca.configure(text_color="red")
                 
-    btn = customtkinter.CTkButton(tela_alterar,text="buscar",command=buscar_alterar,font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
+    btn = customtkinter.CTkButton(tela_alterar,text="buscar",command=lambda:[buscar_alterar(),entradanome_alterar.delete(0,'end')],font=("Arial",15,"bold"),fg_color="#514FFA",hover_color="#1714FA",width=230,corner_radius=20)
     btn.pack(padx=10,pady=10)
     lblerro_nulo_busca = customtkinter.CTkLabel(tela_alterar,text="",font=("Arial",15,"bold"))
     lblerro_nulo_busca.pack(padx=10,pady=10)
@@ -326,5 +336,6 @@ btn6.pack(padx=10,pady=10)
 
 
 principal.mainloop()
+
 
 
