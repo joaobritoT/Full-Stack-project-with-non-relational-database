@@ -60,10 +60,6 @@ def cadastro():
 
             else:
                 adicionar_contato(p1.Nome,p1.Email,p1.Telefone)
-                #lbljacadastrado.configure(text='Usuario cadastrado com sucesso')
-                #lbljacadastrado.configure(text_color="green")
-                #lbljacadastrado = customtkinter.CTkLabel(cadastro,text='cadastrado',font=("Arial",15,"bold"),text_color="red")
-                #lbljacadastrado.pack(padx=10,pady=10)
                 cadastro.withdraw()
                 confirmacao = customtkinter.CTk()
                 confirmacao.geometry("300x50")
@@ -282,8 +278,6 @@ def alterar():
                                 json.dump(contatos_atualizados, arquivo, indent=2)
                             print("alterado")
                             print(nulo)
-                            #lblerro_nulo.configure(text='alterado com sucesso')
-                            #lblerro_nulo.configure(text_color='green')
                             confirmacao_alterar = customtkinter.CTk()
                             confirmacao_alterar.geometry("300x50")
                             confirmacao_alterar.title("Banco de contatos João Victor")
